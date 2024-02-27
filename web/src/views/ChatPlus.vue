@@ -278,6 +278,7 @@ import {checkSession} from "@/action/session";
 import Welcome from "@/components/Welcome.vue";
 import ChatMidJourney from "@/components/ChatMidJourney.vue";
 import FileSelect from "@/components/FileSelect.vue";
+import {setUserToken} from "@/store/session";
 
 const title = ref('ChatGPT-智能助手');
 const models = ref([])
@@ -304,12 +305,15 @@ const showNotice = ref(false)
 const notice = ref("")
 const noticeKey = ref("SYSTEM_NOTICE")
 const wechatCardURL = ref("/images/wx.png")
+const { currentRoute } = useRouter();
+const route = currentRoute.value;
 
 if (isMobile()) {
   router.replace("/mobile")
 }
 
 onMounted(() => {
+  setTokenFromQuery(route.query);
   resizeElement();
   checkSession().then((user) => {
     loginUser.value = user
@@ -906,6 +910,14 @@ const notShow = () => {
 // 插入文件路径
 const insertURL = (url) => {
   prompt.value += " " + url + " "
+}
+
+// 从url查询参数中解析token
+const setTokenFromQuery = (query) => {
+  if (query.token) {
+    setUserToken(query.token)
+    router.push("/chat")
+  }
 }
 </script>
 
