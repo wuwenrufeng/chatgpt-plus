@@ -64,19 +64,19 @@ const routes = [
         meta: {title: '导出会话记录'},
         component: () => import('@/views/ChatExport.vue'),
     },
-    {
-        name: 'login',
-        path: '/login',
-        meta: {title: '用户登录'},
-        component: () => import('@/views/Login.vue'),
-    },
-    {
-        name: 'register',
-        path: '/register',
+    // {
+    //     name: 'login',
+    //     path: '/login',
+    //     meta: {title: '用户登录'},
+    //     component: () => import('@/views/Login.vue'),
+    // },
+    // {
+    //     name: 'register',
+    //     path: '/register',
 
-        meta: {title: '用户注册'},
-        component: () => import('@/views/Register.vue'),
-    },
+    //     meta: {title: '用户注册'},
+    //     component: () => import('@/views/Register.vue'),
+    // },
     {
         path: '/admin/login',
         name: 'admin-login',
