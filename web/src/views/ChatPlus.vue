@@ -366,6 +366,9 @@ onMounted(() => {
       if (oldNotice !== notice.value) {
         showNotice.value = true
       }
+      if (notice.value.length === 0) {
+        showNotice.value = false
+      }
     }).catch(e => {
       ElMessage.error("获取系统配置失败：" + e.message)
     })
