@@ -70,19 +70,19 @@ const routes = [
         meta: {title: '用户登录'},
         component: () => import('@/views/Login.vue'),
     },
-    {
-        name: 'register',
-        path: '/register',
+    // {
+    //     name: 'register',
+    //     path: '/register',
 
-        meta: {title: '用户注册'},
-        component: () => import('@/views/Register.vue'),
-    },
-    {
-        path: '/admin/login',
-        name: 'admin-login',
-        meta: {title: 'ChatPuls 控制台登录'},
-        component: () => import('@/views/admin/Login.vue'),
-    },
+    //     meta: {title: '用户注册'},
+    //     component: () => import('@/views/Register.vue'),
+    // },
+    // {
+    //     path: '/admin/login',
+    //     name: 'admin-login',
+    //     meta: {title: 'ChatPuls 控制台登录'},
+    //     component: () => import('@/views/admin/Login.vue'),
+    // },
     {
         name: 'admin',
         path: '/admin',
