@@ -77,12 +77,12 @@ const routes = [
     //     meta: {title: '用户注册'},
     //     component: () => import('@/views/Register.vue'),
     // },
-    // {
-    //     path: '/admin/login',
-    //     name: 'admin-login',
-    //     meta: {title: 'ChatPuls 控制台登录'},
-    //     component: () => import('@/views/admin/Login.vue'),
-    // },
+    {
+        path: '/admin/login',
+        name: 'admin-login',
+        meta: {title: 'ChatPuls 控制台登录'},
+        component: () => import('@/views/admin/Login.vue'),
+    },
     {
         name: 'admin',
         path: '/admin',
