@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <div class="footer">
-      Powered by {{ author }} @
+      <!-- Powered by {{ author }} @ -->
       <!-- <el-link type="primary" href="https://github.com/yangjian102621/chatgpt-plus" target="_blank">{{ title }} -->
-      <el-link type="primary" target="_blank">{{ title }}
-      </el-link>
+      <!-- <el-link type="primary" target="_blank">{{ title }} -->
+      <!-- </el-link> -->
     </div>
   </div>
 </template>
