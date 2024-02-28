@@ -89,7 +89,7 @@ func (h *UserHandler) Register(c *gin.Context) {
 	user := model.User{
 		Username:   data.Username,
 		Password:   utils.GenPassword(data.Password, salt),
-		Nickname:   fmt.Sprintf("极客学长@%d", utils.RandomNumber(6)),
+		Nickname:   fmt.Sprintf("chatPlus@%d", utils.RandomNumber(6)),
 		Avatar:     "/images/avatar/user.png",
 		Salt:       salt,
 		Status:     true,
@@ -148,7 +148,7 @@ func (h *UserHandler) Register(c *gin.Context) {
 	}
 	// 保存到 redis
 	key = fmt.Sprintf("users/%d", user.Id)
-	if _, err := h.redis.Set(c, key, tokenString, 0).Result(); err != nil {
+	if _, err := h.redis.Set(c, key, tokenString, time.Second*time.Duration(h.App.Config.Session.MaxAge)).Result(); err != nil {
 		resp.ERROR(c, "error with save token: "+err.Error())
 		return
 	}
