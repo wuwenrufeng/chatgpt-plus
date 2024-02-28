@@ -8,9 +8,9 @@
         </div>
         <div class="header">{{ title }}</div>
         <div class="content">
-          <div class="block">
-            <el-input placeholder="手机号/邮箱地址" size="large" v-model="username" autocomplete="off">
-              <template #prefix>
+          <!-- <div class="block">
+            <el-input placeholder="手机号/邮箱地址" size="large" v-model="username" autocomplete="off"> -->
+              <!-- <template #prefix>
                 <el-icon>
                   <UserFilled/>
                 </el-icon>
@@ -34,12 +34,12 @@
 
           <el-row class="text-line" gutter="20">
             <el-button type="primary" @click="router.push('/register')" size="small" plain>注册新账号</el-button>
-            <el-button type="success" @click="showResetPass = true" size="small" plain>重置密码</el-button>
-          </el-row>
+            <el-button type="success" @click="showResetPass = true" size="small" plain>重置密码</el-button> -->
+          <!-- </el-row> -->
         </div>
       </div>
 
-      <reset-pass @hide="showResetPass = false" :show="showResetPass"/>
+      <!-- <reset-pass @hide="showResetPass = false" :show="showResetPass"/> -->
 
       <footer class="footer">
         <footer-bar/>
@@ -64,7 +64,8 @@ import {prevRoute} from "@/router";
 import ResetPass from "@/components/ResetPass.vue";
 
 const router = useRouter();
-const title = ref('ChatPlus 用户登录');
+// const title = ref('ChatPlus 用户登录');
+const title = ref('欢迎使用 ChatPlus');
 const username = ref(process.env.VUE_APP_USER);
 const password = ref(process.env.VUE_APP_PASS);
 const showResetPass = ref(false)
