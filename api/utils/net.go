@@ -6,12 +6,14 @@ import (
 	"chatplus/store/model"
 	"encoding/json"
 	"fmt"
-	"github.com/imroc/req/v3"
-	"gorm.io/gorm"
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
+
+	"github.com/imroc/req/v3"
+	"gorm.io/gorm"
 )
 
 var logger = logger2.GetLogger()
@@ -31,6 +33,12 @@ func ReplyChunkMessage(client *types.WsClient, message interface{}) {
 
 // ReplyMessage 回复客户端一条完整的消息
 func ReplyMessage(ws *types.WsClient, message interface{}) {
+	// 忽略回复微信图片
+	msg, _ := message.(string)
+	if strings.Contains(msg, "wx.png") {
+		return
+	}
+
 	ReplyChunkMessage(ws, types.WsMessage{Type: types.WsStart})
 	ReplyChunkMessage(ws, types.WsMessage{Type: types.WsMiddle, Content: message})
 	ReplyChunkMessage(ws, types.WsMessage{Type: types.WsEnd})

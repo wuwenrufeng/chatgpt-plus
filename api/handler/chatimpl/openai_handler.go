@@ -45,7 +45,7 @@ func (h *ChatHandler) sendOpenAiMessage(
 		}
 
 		utils.ReplyMessage(ws, ErrorMsg)
-		// utils.ReplyMessage(ws, ErrImg)
+		utils.ReplyMessage(ws, ErrImg)
 		return err
 	} else {
 		defer response.Body.Close()
