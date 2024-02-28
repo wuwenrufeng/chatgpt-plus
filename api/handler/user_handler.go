@@ -55,6 +55,12 @@ func (h *UserHandler) Register(c *gin.Context) {
 		return
 	}
 
+	// 检查是否开放注册
+	if !h.App.SysConfig.EnabledRegister {
+		resp.ERROR(c, "目前不允许用户注册,请联系管理员添加账号")
+		return
+	}
+
 	// 检查验证码
 	var key string
 	if utils.ContainsStr(h.App.SysConfig.RegisterWays, "email") ||
