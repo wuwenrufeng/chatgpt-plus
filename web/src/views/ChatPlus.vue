@@ -878,7 +878,7 @@ const exportChat = () => {
     return ElMessage.error("请先选中一个会话")
   }
 
-  const url = location.protocol + '//' + location.host + '/chat/export?chat_id=' + activeChat.value['chat_id']
+  const url = location.protocol + '//' + location.host + '#/chat/export?chat_id=' + activeChat.value['chat_id']
   // console.log(url)
   window.open(url, '_blank');
 }
