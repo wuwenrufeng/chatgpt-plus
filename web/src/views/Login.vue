@@ -7,10 +7,11 @@
           <el-image src="images/logo.png" fit="cover"/>
         </div>
         <div class="header">{{ title }}</div>
-        <div class="content">
-          <!-- <div class="block">
-            <el-input placeholder="手机号/邮箱地址" size="large" v-model="username" autocomplete="off"> -->
-              <!-- <template #prefix>
+        <!-- <div class="content">
+          <div class="block">
+            <el-input placeholder="手机号/邮箱地址" size="large" v-model="username" autocomplete="off" autofocus
+                      @keyup="handleKeyup">
+              <template #prefix>
                 <el-icon>
                   <UserFilled/>
                 </el-icon>
@@ -19,7 +20,8 @@
           </div>
 
           <div class="block">
-            <el-input placeholder="请输入密码" size="large" v-model="password" show-password autocomplete="off">
+            <el-input placeholder="请输入密码" size="large" v-model="password" show-password autocomplete="off"
+                      @keyup="handleKeyup">
               <template #prefix>
                 <el-icon>
                   <Lock/>
@@ -30,13 +32,13 @@
 
           <el-row class="btn-row">
             <el-button class="login-btn" size="large" type="primary" @click="login">登录</el-button>
-          </el-row>
+          </el-row> -->
 
-          <el-row class="text-line" gutter="20">
-            <el-button type="primary" @click="router.push('/register')" size="small" plain>注册新账号</el-button>
-            <el-button type="success" @click="showResetPass = true" size="small" plain>重置密码</el-button> -->
+          <!-- <el-row class="text-line" gutter="20"> -->
+            <!-- <el-button type="primary" @click="router.push('/register')" size="small" plain>注册新账号</el-button> -->
+            <!-- <el-button type="success" @click="showResetPass = true" size="small" plain>重置密码</el-button> --> 
           <!-- </el-row> -->
-        </div>
+        <!-- </div> -->
       </div>
 
       <!-- <reset-pass @hide="showResetPass = false" :show="showResetPass"/> -->
@@ -84,13 +86,6 @@ const handleKeyup = (e) => {
     login();
   }
 };
-
-onMounted(() => {
-  document.addEventListener('keyup', handleKeyup)
-})
-onUnmounted(() => {
-  document.removeEventListener('keyup', handleKeyup)
-})
 
 const login = function () {
   if (!validateMobile(username.value) && !validateEmail(username.value)) {
