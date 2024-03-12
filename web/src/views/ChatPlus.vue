@@ -276,7 +276,7 @@ import {
 } from "@/utils/libs";
 import {ElMessage, ElMessageBox} from "element-plus";
 import hl from "highlight.js";
-import {getSessionId, getUserToken, removeUserToken} from "@/store/session";
+import {getSessionId, getUserToken, removeUserToken, removeSessionId} from "@/store/session";
 import {httpGet, httpPost} from "@/utils/http";
 import {useRouter} from "vue-router";
 import Clipboard from "clipboard";
@@ -899,6 +899,7 @@ const insertURL = (url) => {
 // 从url查询参数中解析token
 const setTokenFromQuery = (query) => {
   if (query.token) {
+    removeSessionId()  
     setUserToken(query.token)
     router.push("/chat")
   }
