@@ -9,6 +9,7 @@ type AppConfig struct {
 	Listen        string
 	Session       Session
 	ProxyURL      string
+	UserAgent     string
 	MysqlDns      string                  // mysql 连接地址
 	Manager       Manager                 // 后台管理员账户信息
 	StaticDir     string                  // 静态资源目录

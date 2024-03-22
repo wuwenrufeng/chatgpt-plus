@@ -448,6 +448,7 @@ func (h *ChatHandler) doRequest(ctx context.Context, req types.ApiRequest, platf
 		return nil, errors.New("no available key, please import key")
 	}
 	var apiURL string
+	var userAgent string
 	switch platform {
 	case types.Azure:
 		md := strings.Replace(req.Model, ".", "", 1)
@@ -467,6 +468,9 @@ func (h *ChatHandler) doRequest(ctx context.Context, req types.ApiRequest, platf
 		break
 	default:
 		apiURL = apiKey.ApiURL
+		if len(h.App.Config.UserAgent) > 0 {
+			userAgent = h.App.Config.UserAgent
+		}
 	}
 	// 更新 API KEY 的最后使用时间
 	h.db.Model(apiKey).UpdateColumn("last_used_at", time.Now().Unix())
@@ -495,6 +499,11 @@ func (h *ChatHandler) doRequest(ctx context.Context, req types.ApiRequest, platf
 
 	request = request.WithContext(ctx)
 	request.Header.Set("Content-Type", "application/json")
+
+	if len(userAgent) > 0 {
+		request.Header.Set("User-Agent", userAgent)
+	}
+
 	var proxyURL string
 	if h.App.Config.ProxyURL != "" && apiKey.UseProxy { // 使用代理
 		proxyURL = h.App.Config.ProxyURL
