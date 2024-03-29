@@ -82,7 +82,7 @@ func (c *HTTPClient) SendRequest(method, url string, body interface{}, data inte
 	if err != nil {
 		return fmt.Errorf("读取响应失败: %v", err)
 	}
-	return json.Unmarshal(respByte, resp)
+	return json.Unmarshal(respByte, data)
 }
 
 func GenToken(appKey string, appSecret string) string {

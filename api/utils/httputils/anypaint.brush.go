@@ -42,7 +42,7 @@ func (a AnypaintBrush) IsEnough(uid string) (error, *AnypaintData) {
 func (a AnypaintBrush) SubBrush(uid string, session *types.ChatSession) error {
 	headers := map[string]string{
 		"Content-Type":  "application/json",
-		"Authorization": GenToken(a.AppSecret, a.AppKey),
+		"Authorization": GenToken(a.AppKey, a.AppSecret),
 	}
 	userUrl := a.BaseUrl + a.RouterPath + "/" + uid
 	client := NewHTTPClient(3, headers) // 设置最大重试次数为3和自定义请求头
