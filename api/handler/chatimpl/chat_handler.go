@@ -10,6 +10,7 @@ import (
 	"chatplus/store/model"
 	"chatplus/store/vo"
 	"chatplus/utils"
+	"chatplus/utils/httputils"
 	"chatplus/utils/resp"
 	"context"
 	"encoding/json"
@@ -205,18 +206,36 @@ func (h *ChatHandler) sendMessage(ctx context.Context, session *types.ChatSessio
 		utils.ReplyMessage(ws, ErrImg)
 		return nil
 	}
-
-	if userVo.Calls < session.Model.Weight {
-		utils.ReplyMessage(ws, fmt.Sprintf("您当前剩余对话次数（%d）已不足以支付当前模型的单次对话需要消耗的对话额度（%d）！", userVo.Calls, session.Model.Weight))
+	//TODO 调图刷刷查刷子
+	config := h.App.Config.AnypaintConfig
+	brush := &httputils.AnypaintBrush{
+		BaseUrl:    config.Host,
+		RouterPath: config.RouterPath,
+		AppKey:     config.AppKey,
+		AppSecret:  config.AppSecret,
+	}
+	err, data := brush.IsEnough(userVo.Username)
+	if err != nil {
+		utils.ReplyMessage(ws, fmt.Sprintf("余额查询失败，请稍后再试····"))
 		utils.ReplyMessage(ws, ErrImg)
 		return nil
 	}
-
-	if userVo.Calls <= 0 && userVo.ChatConfig.ApiKeys[session.Model.Platform] == "" {
-		utils.ReplyMessage(ws, "您的对话次数已经用尽，请联系管理员或者充值点卡继续对话！")
+	if data.Code != httputils.EnoughOk {
+		utils.ReplyMessage(ws, "您的刷子已经用尽，请联充值后继续对话！")
 		utils.ReplyMessage(ws, ErrImg)
 		return nil
 	}
+	//if userVo.Calls < session.Model.Weight {
+	//	utils.ReplyMessage(ws, fmt.Sprintf("您当前剩余对话次数（%d）已不足以支付当前模型的单次对话需要消耗的对话额度（%d）！", userVo.Calls, session.Model.Weight))
+	//	utils.ReplyMessage(ws, ErrImg)
+	//	return nil
+	//}
+	//
+	//if userVo.Calls <= 0 && userVo.ChatConfig.ApiKeys[session.Model.Platform] == "" {
+	//	utils.ReplyMessage(ws, "您的对话次数已经用尽，请联系管理员或者充值点卡继续对话！")
+	//	utils.ReplyMessage(ws, ErrImg)
+	//	return nil
+	//}
 
 	if userVo.ExpiredTime > 0 && userVo.ExpiredTime <= time.Now().Unix() {
 		utils.ReplyMessage(ws, "您的账号已经过期，请联系管理员！")
@@ -543,13 +562,27 @@ func (h *ChatHandler) doRequest(ctx context.Context, req types.ApiRequest, platf
 
 // 扣减用户的对话次数
 func (h *ChatHandler) subUserCalls(userVo vo.User, session *types.ChatSession) {
+	//TODO 调图刷刷扣刷子
 	// 仅当用户没有导入自己的 API KEY 时才进行扣减
-	if userVo.ChatConfig.ApiKeys[session.Model.Platform] == "" {
-		num := 1
-		if session.Model.Weight > 0 {
-			num = session.Model.Weight
-		}
-		h.db.Model(&model.User{}).Where("id = ?", userVo.Id).UpdateColumn("calls", gorm.Expr("calls - ?", num))
+	//if userVo.ChatConfig.ApiKeys[session.Model.Platform] == "" {
+	//	num := 1
+	//	if session.Model.Weight > 0 {
+	//		num = session.Model.Weight
+	//	}
+	//	h.db.Model(&model.User{}).Where("id = ?", userVo.Id).UpdateColumn("calls", gorm.Expr("calls - ?", num))
+	//}
+	config := h.App.Config.AnypaintConfig
+	brush := &httputils.AnypaintBrush{
+		BaseUrl:    config.Host,
+		RouterPath: config.RouterPath,
+		AppKey:     config.AppKey,
+		AppSecret:  config.AppSecret,
+	}
+
+	err := brush.SubBrush(userVo.Username, session)
+	if err != nil {
+		logger.Error("anypaint 扣费失败", err)
+		return
 	}
 }
 

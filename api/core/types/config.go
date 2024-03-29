@@ -23,11 +23,19 @@ type AppConfig struct {
 	WeChatBot     bool                    // 是否启用微信机器人
 	SdConfigs     []StableDiffusionConfig // sd AI draw service pool
 
-	XXLConfig     XXLConfig
-	AlipayConfig  AlipayConfig
-	HuPiPayConfig HuPiPayConfig
-	SmtpConfig    SmtpConfig // 邮件发送配置
-	JPayConfig    JPayConfig // payjs 支付配置
+	XXLConfig      XXLConfig
+	AlipayConfig   AlipayConfig
+	HuPiPayConfig  HuPiPayConfig
+	SmtpConfig     SmtpConfig // 邮件发送配置
+	JPayConfig     JPayConfig // payjs 支付配置
+	AnypaintConfig AnypaintConfig
+}
+
+type AnypaintConfig struct {
+	Host       string
+	RouterPath string
+	AppKey     string
+	AppSecret  string
 }
 
 type SmtpConfig struct {
