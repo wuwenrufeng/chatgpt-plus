@@ -13,13 +13,13 @@ type AnypaintBrush struct {
 }
 
 type AnypaintData struct {
-	Code string      `json:"code"`
+	Code int         `json:"code"`
 	Msg  string      `json:"msg"`
 	Data interface{} `json:"data"`
 }
 
 var (
-	EnoughOk = "200"
+	EnoughOk = 200
 )
 
 func (a AnypaintBrush) IsEnough(uid string) (error, *AnypaintData) {

@@ -221,6 +221,7 @@ func (h *ChatHandler) sendMessage(ctx context.Context, session *types.ChatSessio
 		return nil
 	}
 	if data.Code != httputils.EnoughOk {
+		logger.Error(fmt.Sprintf("余额不足，查询结果：%x", data))
 		utils.ReplyMessage(ws, "您的刷子已经用尽，请充值后继续对话！")
 		utils.ReplyMessage(ws, ErrImg)
 		return nil
