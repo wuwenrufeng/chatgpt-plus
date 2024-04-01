@@ -221,7 +221,7 @@ func (h *ChatHandler) sendMessage(ctx context.Context, session *types.ChatSessio
 		return nil
 	}
 	if data.Code != httputils.EnoughOk {
-		logger.Error(fmt.Sprintf("余额不足，查询结果：%x", data))
+		logger.Error(fmt.Sprintf("余额不足，查询结果：%s", data.ToJsonStr()))
 		utils.ReplyMessage(ws, "您的刷子已经用尽，请充值后继续对话！")
 		utils.ReplyMessage(ws, ErrImg)
 		return nil
@@ -580,11 +580,8 @@ func (h *ChatHandler) subUserCalls(userVo vo.User, session *types.ChatSession) {
 		AppSecret:  config.AppSecret,
 	}
 
-	err := brush.SubBrush(userVo.Username, session)
-	if err != nil {
-		logger.Error("anypaint 扣费失败", err)
-		return
-	}
+	err, data := brush.SubBrush(userVo.Username, session)
+	logger.Info(fmt.Sprintf("用户扣费：user=%s,data=%s", userVo.Username, data.ToJsonStr()), err)
 }
 
 func (h *ChatHandler) incUserTokenFee(userId uint, tokens int) {

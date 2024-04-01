@@ -2,7 +2,7 @@ package httputils
 
 import (
 	"chatplus/core/types"
-	"fmt"
+	"encoding/json"
 )
 
 type AnypaintBrush struct {
@@ -16,6 +16,11 @@ type AnypaintData struct {
 	Code int         `json:"code"`
 	Msg  string      `json:"msg"`
 	Data interface{} `json:"data"`
+}
+
+func (a *AnypaintData) ToJsonStr() string {
+	marshal, _ := json.Marshal(a)
+	return string(marshal)
 }
 
 var (
@@ -32,14 +37,10 @@ func (a AnypaintBrush) IsEnough(uid string) (error, *AnypaintData) {
 	// 发送请求
 	data := &AnypaintData{}
 	err := client.SendRequest(GET, userUrl, nil, data)
-	if err != nil {
-		logger.Error(fmt.Sprintf("刷子查询失败，%x", data), err)
-		return err, nil
-	}
-	return nil, data
+	return err, data
 }
 
-func (a AnypaintBrush) SubBrush(uid string, session *types.ChatSession) error {
+func (a AnypaintBrush) SubBrush(uid string, session *types.ChatSession) (error, *AnypaintData) {
 	headers := map[string]string{
 		"Content-Type":  "application/json",
 		"Authorization": GenToken(a.AppKey, a.AppSecret),
@@ -53,5 +54,5 @@ func (a AnypaintBrush) SubBrush(uid string, session *types.ChatSession) error {
 	}
 	data := &AnypaintData{}
 	err := client.SendRequest(POST, userUrl, body, data)
-	return err
+	return err, data
 }
